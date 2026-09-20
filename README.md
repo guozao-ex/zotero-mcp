@@ -56,6 +56,7 @@ that adds six endpoints under `/zoteromcp/*`. If the local machine is unreachabl
 | Node.js | **≥ 22.16** (runs the TypeScript entry directly) |
 | OS | Windows verified end-to-end; macOS/Linux **not yet verified** |
 | Optional | MiKTeX (only for LaTeX `.bib` export/compile workflows) |
+| Optional | Docker/WSL2 **or** a small server, only if you want to self-host Zotero’s `translation-server` as an extra identifier-resolution channel — everything works without it |
 | Disk | Models ~23 MB (English) / ~24 MB (Chinese) / ~118 MB + 17 MB tokenizer (multilingual) |
 
 ---
@@ -280,6 +281,12 @@ per-change verification reports; the test suite, `plugin:verify` and `verify:off
   with zero embeddings. Incremental updates for a *changed* library re-embed only changed items.
 - **Real-library scale is not verified**: the 252-item evaluation used a *synthetic, controlled* corpus (deliberately
   full of near-duplicates), so its absolute numbers do not transfer to a real 200+ item library.
+- **`translation-server` (optional L3 channel) is verified at the *channel* level only**: ten contract tests cover
+  endpoint/token/timeout/redaction and graceful degradation, and an independent verification round passed — but the
+  **deployment itself was never exercised** (no container or cloud run; the authoring machine has neither Docker nor
+  WSL2). In every real-machine run so far the endpoint was absent and identifier resolution fell back to
+
+  Crossref / OpenLibrary / PubMed: *“works without it”* is proven, *“works with it”* is not.
 - **Attachment byte-upload is not implemented**: `zotero_attach_file` supports `linked_file` only (no cloud quota);
   stored-file uploads are a future change.
 - **Model cache is not committed**, so semantic tests skip on a clean clone until `npm run report:index` downloads a model.
