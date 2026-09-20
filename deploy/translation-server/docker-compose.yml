@@ -18,8 +18,9 @@ services:
     ports:
       - "127.0.0.1:1969:1969"
     environment:
-      # 建议带联系方式的 UA，便于目标站点在异常流量时联系你
-      USER_AGENT: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 zotero-mcp/1.0 (you@example.com)"
+      # UA 从 .env 读（上游明确建议：正式部署时带上联系方式，便于目标站点在异常流量时联系你）
+      # 在 .env 里设 USER_AGENT=...；未设时用下面这个不带联系方式的默认值
+      USER_AGENT: "${USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 zotero-mcp/1.0}"
     healthcheck:
       # 镜像里没有 curl/wget，用自带的 node 发一次最小 /search
       test:

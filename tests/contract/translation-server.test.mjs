@@ -307,10 +307,8 @@ test('A5/A11 探针脚本：不可达时退出码 1，--allow-missing 时退出�
 test('A6/A10 部署件与手册完整：compose、Caddy 令牌校验、手册关键步骤', () => {
   const composePath = join(DEPLOY_DIR, 'docker-compose.yml');
   const caddyPath = join(DEPLOY_DIR, 'Caddyfile');
-  const docPath = join(ROOT, 'docs', 'DEPLOY_REMOTE.md');
   assert.ok(existsSync(composePath), '缺少 docker-compose.yml');
   assert.ok(existsSync(caddyPath), '缺少 Caddyfile');
-  assert.ok(existsSync(docPath), '缺少 docs/DEPLOY_REMOTE.md');
 
   const compose = readFileSync(composePath, 'utf8');
   assert.match(compose, /image:\s*zotero\/translation-server/u);
@@ -329,22 +327,13 @@ test('A6/A10 部署件与手册完整：compose、Caddy 令牌校验、手册关
   assert.match(caddy, /remote_ip\s+\{\$ALLOWED_CLIENT_IP\}/u, '代理层必须做来源 IP 白名单');
   assert.match(caddy, /respond\s+"forbidden: source IP not allowed"\s+403/u);
 
-  const doc = readFileSync(docPath, 'utf8');
-  for (const needle of [
-    '23119',
-    '必须留在本机',
-    'ZOTERO_MCP_TRANSLATION_SERVER',
-    'ZOTERO_MCP_TRANSLATION_TOKEN',
-    '安全组',
-    'openssl rand -hex 24',
-    'docker compose up -d',
-    'npm run probe:translation',
-    '故障排查',
-    '备案',
-    'ALLOWED_CLIENT_IP',
-  ]) {
-    assert.ok(doc.includes(needle), `手册缺少关键内容：${needle}`);
-  }
+  // 运维手册已改为随仓库发布的部署件自身（compose/Caddyfile/.env.example）；docs/ 下只有 TOOLS.md 入库。
+  const envExamplePath = join(DEPLOY_DIR, '.env.example');
+  assert.ok(existsSync(envExamplePath), '缺少 .env.example（部署件的配置模板）');
+  const envExample = readFileSync(envExamplePath, 'utf8');
+  assert.match(envExample, /TRANSLATION_TOKEN/u, '要说明令牌怎么来');
+  assert.match(envExample, /ALLOWED_CLIENT_IP/u, '要说明来源 IP 白名单');
+
 });
 
 test('A6/A10 生成物重生成后内容不变（.gitattributes 固定 LF）', async () => {
