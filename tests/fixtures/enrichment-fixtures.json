@@ -1,0 +1,299 @@
+{
+  "_comment": "离线固件语料（G8 元数据补全）：库内条目 + 六个源的可控响应，用于 npm run report:enrichment --fixtures 与契约测试。DOI 均为示例值，不指向真实文献；载荷结构按 2026-09-18 真机实测的上游形态构造。",
+  "generatedAt": "2026-09-18",
+  "mailto": "zotero-mcp@localhost",
+  "library": {
+    "items": [
+      {
+        "key": "ENR0001",
+        "version": 11,
+        "data": {
+          "itemType": "journalArticle",
+          "title": "Alpha: a reproducible pipeline for offline metadata enrichment",
+          "DOI": "10.1000/alpha.enriched",
+          "date": "2021-03-01",
+          "publicationTitle": "Journal of Reproducible Pipelines",
+          "creators": [{ "firstName": "Ada", "lastName": "Author", "creatorType": "author" }],
+          "tags": [{ "tag": "alpha" }],
+          "extra": "Citation Key: alphaEnriched2021"
+        }
+      },
+      {
+        "key": "ENR0002",
+        "version": 12,
+        "data": {
+          "itemType": "journalArticle",
+          "title": "Beta: a retracted study used by the enrichment fixtures",
+          "DOI": "10.1000/beta.retracted",
+          "date": "1998-02-28",
+          "publicationTitle": "Journal of Retraction Studies",
+          "journalAbbreviation": "BCAS_CH",
+          "tags": [{ "tag": "keep-me" }],
+          "extra": "用户手写备注：不要删除这一行。"
+        }
+      },
+      {
+        "key": "ENR0003",
+        "version": 13,
+        "data": {
+          "itemType": "journalArticle",
+          "title": "Gamma preprint on scalable enrichment cascades",
+          "date": "2022-07-01",
+          "publicationTitle": "arXiv",
+          "tags": []
+        }
+      },
+      {
+        "key": "ENR0004",
+        "version": 14,
+        "data": {
+          "itemType": "journalArticle",
+          "title": "Delta: all sources are down for this record",
+          "DOI": "10.1000/delta.down",
+          "date": "2023-01-01",
+          "tags": [{ "tag": "delta" }]
+        }
+      },
+      {
+        "key": "ENR0005",
+        "version": 15,
+        "data": {
+          "itemType": "journalArticle",
+          "title": "Epsilon notes without a resolvable identifier",
+          "date": "2024-05-05",
+          "tags": []
+        }
+      }
+    ]
+  },
+  "records": [
+    {
+      "key": "ENR0001",
+      "doi": "10.1000/alpha.enriched",
+      "sources": {
+        "openalex": {
+          "body": {
+            "id": "https://openalex.org/W9000000001",
+            "doi": "https://doi.org/10.1000/alpha.enriched",
+            "display_name": "Alpha: a reproducible pipeline for offline metadata enrichment",
+            "cited_by_count": 128,
+            "is_retracted": false,
+            "ids": { "pmcid": "PMC9000001", "doi": "https://doi.org/10.1000/alpha.enriched" },
+            "primary_location": {
+              "source": { "display_name": "Journal of Reproducible Pipelines", "abbreviated_title": "J. Reprod. Pipelines" }
+            },
+            "open_access": { "is_oa": true, "oa_status": "hybrid", "oa_url": "https://example.org/alpha" },
+            "best_oa_location": { "url": "https://example.org/alpha", "license": "cc-by" }
+          }
+        },
+        "semanticscholar": {
+          "body": {
+            "paperId": "9f1d0000000000000000000000000000000000a1",
+            "title": "Alpha: a reproducible pipeline for offline metadata enrichment",
+            "citationCount": 121,
+            "influentialCitationCount": 9,
+            "openAccessPdf": { "url": "https://example.org/alpha.pdf", "status": "HYBRID", "license": "CC-BY-4.0" },
+            "externalIds": { "DOI": "10.1000/alpha.enriched", "PubMedCentral": "9000001", "PubMed": "9000001" }
+          }
+        },
+        "crossref": {
+          "body": {
+            "status": "ok",
+            "message": {
+              "DOI": "10.1000/alpha.enriched",
+              "type": "journal-article",
+              "title": ["Alpha: a reproducible pipeline for offline metadata enrichment"],
+              "container-title": ["Journal of Reproducible Pipelines"],
+              "short-container-title": ["J. Reprod. Pipelines"],
+              "is-referenced-by-count": 120
+            }
+          }
+        },
+        "unpaywall": {
+          "body": {
+            "doi": "10.1000/alpha.enriched",
+            "is_oa": true,
+            "oa_status": "hybrid",
+            "journal_name": "Journal of Reproducible Pipelines",
+            "best_oa_location": {
+              "url": "https://example.org/alpha",
+              "url_for_pdf": "https://example.org/alpha.pdf",
+              "license": "cc-by",
+              "host_type": "publisher"
+            }
+          }
+        },
+        "pubmed": {
+          "esearch": { "body": { "header": { "type": "esearch" }, "esearchresult": { "count": "1", "retmax": "1", "idlist": ["9000001"] } } },
+          "esummary": {
+            "body": {
+              "header": { "type": "esummary" },
+              "result": {
+                "9000001": {
+                  "uid": "9000001",
+                  "title": "Alpha: a reproducible pipeline for offline metadata enrichment.",
+                  "source": "J Reprod Pipelines",
+                  "pubtype": ["Journal Article"],
+                  "articleids": [
+                    { "idtype": "pubmed", "value": "9000001" },
+                    { "idtype": "doi", "value": "10.1000/alpha.enriched" },
+                    { "idtype": "pmc", "value": "PMC9000001" }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "arxiv": {
+          "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:opensearch=\"http://a9.com/-/spec/opensearch/1.1/\" xmlns:arxiv=\"http://arxiv.org/schemas/atom\">\n  <opensearch:totalResults>1</opensearch:totalResults>\n  <entry>\n    <id>http://arxiv.org/abs/2103.00001v2</id>\n    <title>Alpha: a reproducible pipeline for offline metadata enrichment</title>\n    <link href=\"https://arxiv.org/abs/2103.00001v2\" rel=\"alternate\" type=\"text/html\"/>\n    <link href=\"https://arxiv.org/pdf/2103.00001v2\" rel=\"related\" type=\"application/pdf\" title=\"pdf\"/>\n    <link href=\"http://arxiv.org/licenses/nonexclusive-distrib/1.0/\" rel=\"license\" type=\"text/html\"/>\n    <arxiv:doi>10.1000/alpha.enriched</arxiv:doi>\n  </entry>\n</feed>\n"
+        }
+      }
+    },
+    {
+      "key": "ENR0002",
+      "doi": "10.1000/beta.retracted",
+      "sources": {
+        "openalex": {
+          "body": {
+            "id": "https://openalex.org/W9000000002",
+            "doi": "https://doi.org/10.1000/beta.retracted",
+            "display_name": "Beta: a retracted study used by the enrichment fixtures",
+            "cited_by_count": 2963,
+            "is_retracted": true,
+            "ids": {},
+            "primary_location": { "source": { "display_name": "Journal of Retraction Studies", "abbreviated_title": null } }
+          }
+        },
+        "semanticscholar": { "status": 404, "body": { "error": "Paper not found" } },
+        "crossref": {
+          "body": {
+            "status": "ok",
+            "message": {
+              "DOI": "10.1000/beta.retracted",
+              "type": "journal-article",
+              "container-title": ["Journal of Retraction Studies"],
+              "short-container-title": ["J. Retract. Stud."],
+              "updated-by": [
+                {
+                  "DOI": "10.1000/beta.notice",
+                  "type": "retraction",
+                  "label": "Retraction",
+                  "source": "retraction-watch",
+                  "updated": { "date-parts": [[2010, 2, 6]] }
+                }
+              ]
+            }
+          }
+        },
+        "unpaywall": { "status": 404, "body": { "error": "DOI not found" } },
+        "pubmed": {
+          "esearch": { "body": { "esearchresult": { "count": "1", "idlist": ["9000002"] } } },
+          "esummary": {
+            "body": {
+              "result": {
+                "9000002": {
+                  "uid": "9000002",
+                  "title": "Beta: a retracted study used by the enrichment fixtures.",
+                  "source": "J Retract Stud",
+                  "pubtype": ["Journal Article", "Retracted Publication"],
+                  "articleids": [{ "idtype": "doi", "value": "10.1000/beta.retracted" }]
+                }
+              }
+            }
+          }
+        },
+        "arxiv": { "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:opensearch=\"http://a9.com/-/spec/opensearch/1.1/\">\n  <opensearch:totalResults>0</opensearch:totalResults>\n</feed>\n" }
+      }
+    },
+    {
+      "key": "ENR0003",
+      "title": "Gamma preprint on scalable enrichment cascades",
+      "doi": "10.1000/gamma.preprint",
+      "titleSearch": {
+        "body": {
+          "results": [
+            {
+              "display_name": "Gamma preprint on scalable enrichment cascades",
+              "doi": "https://doi.org/10.1000/gamma.preprint",
+              "cited_by_count": 7
+            },
+            {
+              "display_name": "An unrelated survey of enrichment cascades in libraries",
+              "doi": "https://doi.org/10.1000/unrelated.survey",
+              "cited_by_count": 3
+            }
+          ]
+        }
+      },
+      "sources": {
+        "openalex": {
+          "body": {
+            "id": "https://openalex.org/W9000000003",
+            "doi": "https://doi.org/10.1000/gamma.preprint",
+            "display_name": "Gamma preprint on scalable enrichment cascades",
+            "cited_by_count": 7,
+            "is_retracted": false,
+            "ids": {},
+            "primary_location": { "source": { "display_name": "arXiv", "abbreviated_title": null } }
+          }
+        },
+        "semanticscholar": {
+          "body": {
+            "paperId": "9f1d0000000000000000000000000000000000a3",
+            "title": "Gamma preprint on scalable enrichment cascades",
+            "citationCount": 6,
+            "influentialCitationCount": 1,
+            "openAccessPdf": null,
+            "externalIds": { "DOI": "10.1000/gamma.preprint", "ArXiv": "2207.00003" }
+          }
+        },
+        "crossref": {
+          "body": {
+            "status": "ok",
+            "message": {
+              "DOI": "10.1000/gamma.preprint",
+              "type": "posted-content",
+              "container-title": ["arXiv"],
+              "short-container-title": []
+            }
+          }
+        },
+        "unpaywall": { "status": 404, "body": { "error": "DOI not found" } },
+        "pubmed": {
+          "esearch": { "body": { "esearchresult": { "count": "0", "idlist": [] } } }
+        },
+        "arxiv": {
+          "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:opensearch=\"http://a9.com/-/spec/opensearch/1.1/\" xmlns:arxiv=\"http://arxiv.org/schemas/atom\">\n  <opensearch:totalResults>1</opensearch:totalResults>\n  <entry>\n    <id>http://arxiv.org/abs/2207.00003v1</id>\n    <title>Gamma preprint on scalable enrichment cascades</title>\n    <link href=\"https://arxiv.org/abs/2207.00003v1\" rel=\"alternate\" type=\"text/html\"/>\n    <link href=\"https://arxiv.org/pdf/2207.00003v1\" rel=\"related\" type=\"application/pdf\" title=\"pdf\"/>\n    <link href=\"http://arxiv.org/licenses/nonexclusive-distrib/1.0/\" rel=\"license\" type=\"text/html\"/>\n    <arxiv:doi>10.1000/gamma.preprint</arxiv:doi>\n  </entry>\n</feed>\n"
+        }
+      }
+    },
+    {
+      "key": "ENR0004",
+      "doi": "10.1000/delta.down",
+      "sources": {
+        "openalex": { "status": 503, "body": { "error": "service unavailable" } },
+        "semanticscholar": { "status": 429, "body": { "error": "Too Many Requests" } },
+        "crossref": { "status": 500, "body": { "error": "internal error" } },
+        "unpaywall": { "status": 502, "body": { "error": "bad gateway" } },
+        "pubmed": { "esearch": { "status": 500, "body": { "error": "internal error" } } },
+        "arxiv": { "status": 503, "body": "service unavailable" }
+      }
+    },
+    {
+      "key": "ENR0005",
+      "title": "Epsilon notes without a resolvable identifier",
+      "titleSearch": {
+        "body": {
+          "results": [
+            {
+              "display_name": "Quantum chromodynamics in heavy-ion collisions at the LHC",
+              "doi": "https://doi.org/10.1000/epsilon.other",
+              "cited_by_count": 1
+            }
+          ]
+        }
+      },
+      "sources": {}
+    }
+  ]
+}

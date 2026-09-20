@@ -1,0 +1,4 @@
+# 生成物固定为 LF：脚本重生成后工作区保持干净
+# （Windows 上 core.autocrlf=true 时，脚本写出 LF 会让文件显示为「已修改」）
+# 注意：docs/ 下只有 TOOLS.md 入库；DEDUPE_REPORT.md 等报告为本地产物（见 .gitignore）。
+docs/TOOLS.md text eol=lf

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "reachable": {
+      "type": "boolean"
+    },
+    "statusCode": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "apiVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "serverId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "writeAvailable": {
+      "type": "boolean"
+    },
+    "errorCode": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "connection-refused",
+            "local-api-disabled",
+            "write-unauthorized",
+            "version-conflict",
+            "missing-server-id",
+            "rate-limited",
+            "http-error"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cachePath": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "nextSteps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target": {
+      "type": "string"
+    },
+    "probedAt": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "reachable",
+    "statusCode",
+    "apiVersion",
+    "serverId",
+    "schemaVersion",
+    "writeAvailable",
+    "errorCode",
+    "reason",
+    "cachePath",
+    "nextSteps",
+    "target",
+    "probedAt"
+  ],
+  "additionalProperties": false
+}

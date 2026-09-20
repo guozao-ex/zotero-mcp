@@ -1,0 +1,19 @@
+{
+  "name": "@zotero-mcp/mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tools": "./src/tools.ts",
+    "./server": "./src/server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@zotero-mcp/core": "0.1.0",
+    "zod": "^4.6.5",
+    "@zotero-mcp/indexer": "0.1.0"
+  }
+}

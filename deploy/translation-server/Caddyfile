@@ -1,0 +1,62 @@
+# translation-server 的令牌网关（Caddy 2）
+#
+# 作用：只把带正确 X-ZoteroMCP-Token 的请求转发给上游容器；
+# 上游 translation-server 自身没有任何鉴权，这一步是公网部署的必要条件。
+#
+# 令牌来自 docker-compose 注入的环境变量 TRANSLATION_TOKEN（Caddy 用 {$VAR} 读取）。
+
+{
+	admin off
+}
+
+# ── 方案 A（默认）：IP + 非标准端口 + 令牌 ────────────────────────────────
+# 没有域名时 Caddy 无法签发证书，因此这里跑明文 HTTP；
+# 安全靠三件事叠加：非 80/443 端口（多数场景免备案）+ 令牌 + 云安全组只放行你的出口 IP。
+# 想加密又不想买域名，可以用 SSH 隧道把远端 8443 映射到本机 1969（见 docs/DEPLOY_REMOTE.md）。
+:8443 {
+	# 令牌 + 来源 IP 双重校验：两者都满足才转发
+	# 默认只允许私网来源（private_ranges）；公网访问必须在 .env 里把
+	# ALLOWED_CLIENT_IP 设成你自己的出口 IP（多个用空格分隔）。
+	@authorized {
+		header X-ZoteroMCP-Token {$TRANSLATION_TOKEN}
+		remote_ip {$ALLOWED_CLIENT_IP}
+	}
+
+	@trusted remote_ip {$ALLOWED_CLIENT_IP}
+
+	handle @authorized {
+		reverse_proxy translation-server:1969
+	}
+
+	handle @trusted {
+		respond "unauthorized" 401
+	}
+
+	handle {
+		respond "forbidden: source IP not allowed" 403
+	}
+}
+
+# ── 方案 B（有域名且已完成备案）：自动 HTTPS ──────────────────────────────
+# 把下面的注释打开、填写你的域名，并让 compose 暴露 443 而不是 8443。
+#
+# translate.example.com {
+# 	@authorized {
+# 		header X-ZoteroMCP-Token {$TRANSLATION_TOKEN}
+# 		remote_ip {$ALLOWED_CLIENT_IP}
+# 	}
+#
+# 	@trusted remote_ip {$ALLOWED_CLIENT_IP}
+#
+# 	handle @authorized {
+# 		reverse_proxy translation-server:1969
+# 	}
+#
+# 	handle @trusted {
+# 		respond "unauthorized" 401
+# 	}
+#
+# 	handle {
+# 		respond "forbidden: source IP not allowed" 403
+# 	}
+# }

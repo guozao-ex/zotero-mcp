@@ -1,0 +1,16 @@
+{
+  "name": "@zotero-mcp/indexer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@zotero-mcp/core": "0.1.0",
+    "onnxruntime-node": "^1.30.0",
+    "sqlite-vec": "^0.1.9"
+  }
+}

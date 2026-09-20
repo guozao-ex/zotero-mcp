@@ -1,0 +1,359 @@
+{
+  "description": "重复候选聚类标注语料：20 篇条目，含 6 组真实重复（3 组强键 + 3 组弱键）与 8 篇干扰项（itemType 不同 / 首作者不同 / 年份超出容差 / 标题不相似 / 唯一标题）。",
+  "duplicateGroups": [
+    [
+      "CORP0001",
+      "CORP0002"
+    ],
+    [
+      "CORP0003",
+      "CORP0004"
+    ],
+    [
+      "CORP0005",
+      "CORP0006"
+    ],
+    [
+      "CORP0007",
+      "CORP0008"
+    ],
+    [
+      "CORP0009",
+      "CORP0010"
+    ],
+    [
+      "CORP0011",
+      "CORP0012"
+    ]
+  ],
+  "items": [
+    {
+      "key": "CORP0001",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Deep learning for glacier mapping",
+        "date": "2019",
+        "DOI": "10.1000/glacier.1",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Ada",
+            "lastName": "Author"
+          }
+        ],
+        "collections": [
+          "COLLX"
+        ]
+      }
+    },
+    {
+      "key": "CORP0002",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Deep learning for glacier mapping",
+        "date": "2019",
+        "DOI": "https://doi.org/10.1000/GLACIER.1",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Ada",
+            "lastName": "Author"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0003",
+      "version": 1,
+      "data": {
+        "itemType": "book",
+        "title": "Glacier hydrology",
+        "date": "2005",
+        "ISBN": "978-0-306-40615-7",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Beta",
+            "lastName": "Editor"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0004",
+      "version": 1,
+      "data": {
+        "itemType": "book",
+        "title": "Glacier hydrology",
+        "date": "2005",
+        "ISBN": "9780306406157",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Beta",
+            "lastName": "Editor"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0005",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Sea ice thickness retrieval",
+        "date": "2018",
+        "PMID": "12345678",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Carol",
+            "lastName": "Wang"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0006",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Sea ice thickness retrieval",
+        "date": "2018",
+        "PMID": "PMID: 12345678",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Carol",
+            "lastName": "Wang"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0007",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Glacier runoff modelling in Xinjiang",
+        "date": "2020",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Dan",
+            "lastName": "Li"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0008",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Glacier runoff modeling in Xinjiang",
+        "date": "2021",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Dan",
+            "lastName": "Li"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0009",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Arctic sea ice concentration trends",
+        "date": "2016",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Erin",
+            "lastName": "Kim"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0010",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Arctic sea ice concentration trends",
+        "date": "2017",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Erin",
+            "lastName": "Kim"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0011",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Precambrian glacial erosion: evidence from South China",
+        "date": "2022",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Feng",
+            "lastName": "Zhang"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0012",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Precambrian glacial erosion evidence from South China",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Feng",
+            "lastName": "Zhang"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0013",
+      "version": 1,
+      "data": {
+        "itemType": "book",
+        "title": "Precambrian glacial erosion evidence from South China",
+        "date": "2022",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Feng",
+            "lastName": "Zhang"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0014",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Precambrian glacial erosion evidence from South China",
+        "date": "2022",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Grace",
+            "lastName": "Zhao"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0015",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Precambrian glacial erosion evidence from South China",
+        "date": "2026",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Iris",
+            "lastName": "Chen"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0016",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Machine learning for climate prediction",
+        "date": "2021",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Grace",
+            "lastName": "Zhao"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0017",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Machine learning for weather forecasting",
+        "date": "2021",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Grace",
+            "lastName": "Zhao"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0018",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Ocean circulation variability",
+        "date": "2012",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Hana",
+            "lastName": "Ito"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0019",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Ocean circulation variability",
+        "date": "2026",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Hana",
+            "lastName": "Ito"
+          }
+        ]
+      }
+    },
+    {
+      "key": "CORP0020",
+      "version": 1,
+      "data": {
+        "itemType": "journalArticle",
+        "title": "Satellite gravimetry for groundwater storage",
+        "date": "2019",
+        "creators": [
+          {
+            "creatorType": "author",
+            "firstName": "Ivan",
+            "lastName": "Petrov"
+          }
+        ]
+      }
+    }
+  ]
+}

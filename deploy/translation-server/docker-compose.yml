@@ -1,0 +1,57 @@
+# Zotero translation-server（G2 的 L3 通道）——本地或云端部署
+#
+# 用法：
+#   cp .env.example .env        # 生成令牌：openssl rand -hex 24
+#   docker compose up -d
+#
+# 两个安全约定（务必保留）：
+#   1) translation-server 上游**不带鉴权**，公网直连等于开放抓取代理（会被滥用、也可能被投诉）；
+#      因此默认只把 1969 绑到回环，公网入口一律经 caddy 做令牌校验。
+#   2) 令牌只放在 `.env`（已被 .gitignore 忽略的部署机本地文件），不要提交进仓库。
+
+services:
+  translation-server:
+    image: zotero/translation-server
+    container_name: translation-server
+    restart: unless-stopped
+    # 只绑回环：需要内网访问时改成 "<内网IP>:1969:1969"，不要用 0.0.0.0
+    ports:
+      - "127.0.0.1:1969:1969"
+    environment:
+      # 建议带联系方式的 UA，便于目标站点在异常流量时联系你
+      USER_AGENT: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 zotero-mcp/1.0 (you@example.com)"
+    healthcheck:
+      # 镜像里没有 curl/wget，用自带的 node 发一次最小 /search
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:1969/search',{method:'POST',headers:{'content-type':'text/plain'},body:'10.2307/4486062'}).then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 60s
+      timeout: 25s
+      retries: 3
+      start_period: 30s
+
+  # 公网入口：只转发带正确 X-ZoteroMCP-Token 的请求
+  gateway:
+    image: caddy:2
+    container_name: translation-gateway
+    restart: unless-stopped
+    depends_on:
+      - translation-server
+    # 用非 80/443 端口可避开国内节点的备案要求；安全组只放行你自己的出口 IP
+    ports:
+      - "8443:8443"
+    environment:
+      TRANSLATION_TOKEN: "${TRANSLATION_TOKEN:?请在 .env 里设置 TRANSLATION_TOKEN（openssl rand -hex 24）}"
+      # 来源 IP 白名单：默认只允许私网（private_ranges）；
+      # 公网访问请在 .env 里设成你自己的出口 IP，例如 ALLOWED_CLIENT_IP=203.0.113.7
+      ALLOWED_CLIENT_IP: "${ALLOWED_CLIENT_IP:-private_ranges}"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,59 @@
+# >>> Comet managed project state >>>
+!/.comet/
+/.comet/*
+# <<< Comet managed project state <<<
+
+# >>> DSH generated skill bundles (regenerate with `comet init`) >>>
+/.dsh/skills/
+
+# >>> Node.js >>>
+node_modules/
+*.tsbuildinfo
+
+# >>> 本机缓存（按 serverID 分区，不入库） >>>
+/cache/
+
+# >>> 部署机本地机密（translation-server 令牌等，绝不入库） >>> 
+deploy/**/.env
+deploy/**/.env.*
+!deploy/**/.env.example
+
+# >>> 写管线审计与快照（本机运行产物） >>>
+/.audit/
+
+# >>> 云端 Web API 凭证（缺省放在 Zotero 数据目录；万一被复制进仓库也绝不入库） >>>
+zoteromcp-web-api.json
+
+# >>> 插件构建产物（npm run plugin:build） >>>
+/build/
+
+# >>> 本地独占内容：只在本机使用，不随仓库发布（2026-09-21 起） >>>
+#   docs/ 下只有 TOOLS.md 入库；其余文档、Comet 归档与规格、证据、会话交接均为本地产物
+/docs/*
+!/docs/TOOLS.md
+/.comet/
+/.dsh/
+/AGENTS.md
+/AGENTS.local.md
+/DEVELOPMENT_PLAN.md
+/ROADMAP.md
+
+# >>> Comet 工作区（每次改动一个 worktree，绝不入库） >>>
+/.worktrees/
+
+# >>> 本机写授权 key（默认在 Zotero 数据目录；若把数据目录指进仓库也必须忽略） >>>
+zoteromcp-local-api-key.json
+zoteromcp-token.txt
+
+# >>> 临时/环境文件 >>>
+/.env
+.env
+.env.*
+!deploy/**/.env.example
+*.log
+*.bundle
+
+# >>> 系统垃圾 >>>
+.DS_Store
+Thumbs.db
+desktop.ini

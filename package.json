@@ -1,0 +1,58 @@
+{
+  "name": "zotero-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first, approval-gated Zotero MCP server",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.16"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "probe": "node scripts/probe.mjs",
+    "probe:translation": "node scripts/probe-translation.mjs",
+    "fake": "node scripts/fake-zotero.mjs",
+    "mcp": "node packages/mcp-server/src/main.ts",
+    "plugin:build": "node scripts/plugin-build.mjs",
+    "plugin:verify": "node scripts/plugin-verify.mjs",
+    "test": "node scripts/run-tests.mjs",
+    "test:contract": "node scripts/run-tests.mjs contract",
+    "test:live": "node scripts/live-assertions.mjs",
+    "demo:write": "node scripts/write-demo.mjs",
+    "demo:tools": "node scripts/write-tools-demo.mjs",
+    "docs:tools": "node scripts/gen-tools-doc.mjs",
+    "report:enrichment": "node scripts/enrich-report.mjs",
+    "demo:enrich": "node scripts/enrich-demo.mjs",
+    "report:dedupe": "node scripts/dedupe-report.mjs",
+    "report:identification": "node scripts/identify-report.mjs",
+    "typecheck": "tsc --noEmit",
+    "schema:export": "node scripts/export-schema.mjs",
+    "report:index": "node scripts/index-report.mjs",
+    "demo:citations": "node scripts/citation-writing-demo.mjs",
+    "rollback": "node scripts/rollback.mjs",
+    "verify:offline": "node scripts/verify-offline.mjs",
+    "verify:offline:physical": "node scripts/verify-physical-offline.mjs",
+    "report:deeplinks": "node scripts/deeplink-report.mjs",
+    "export:citavi": "node scripts/export-citavi.mjs",
+    "backfill:annotation-labels": "node scripts/backfill-annotation-labels.mjs",
+    "eval:semantic": "node scripts/eval-semantic.mjs",
+    "plugin:annotate": "node scripts/plugin-annotate.mjs",
+    "annotate:write": "node scripts/annotate-write-channel.mjs",
+    "report:page-align": "node scripts/page-alignment-report.mjs",
+    "report:page-labels": "node scripts/page-label-check.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "unpdf": "^1.8.1",
+    "zod": "^4.6.5",
+    "zotero-plugin-toolkit": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.0"
+  }
+}
