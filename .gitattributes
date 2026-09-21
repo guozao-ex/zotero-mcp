@@ -2,3 +2,6 @@
 # （Windows 上 core.autocrlf=true 时，脚本写出 LF 会让文件显示为「已修改」）
 # 注意：docs/ 下只有 TOOLS.md 入库；DEDUPE_REPORT.md 等报告为本地产物（见 .gitignore）。
 docs/TOOLS.md text eol=lf
+# 文本文件统一以 LF 落盘：plugin:build 把插件源字节原样封进 XPI，
+# 换行不同会让同一 commit 产出不同哈希（LF 33464 B / CRLF 33477 B）。
+* text=auto eol=lf
