@@ -2,7 +2,9 @@
 
 **[English](README.md)** | **中文**
 
-> **状态**：`npm test` **287/287** · `npm run plugin:verify` → **up-to-date** · `npm run verify:offline` → **0** 次非回环请求。
+> **状态**：`npm test` → **287** 个用例、0 fail（跳过数取决于缓存状态：干净克隆首次 21 条、之后再跑 8 条，见 §10）·
+> `npm run plugin:verify` → 当已安装 `.xpi` 就是本次构建时 **`up-to-date`**（用来比对的哈希以你自己构建输出为准，见 §10）·
+> `npm run verify:offline` → **0** 次非回环请求。
 
 `zotero-mcp` 是一个**本地优先、写操作需批准**的 [Zotero](https://www.zotero.org/) MCP（Model Context Protocol）服务器。
 它让 AI 助手检索、阅读并且——**在你明确批准之后**——**写入**你的 Zotero 库：条目、集合、标签、笔记、注释、附件，
@@ -115,7 +117,9 @@ npm run plugin:build
 #    Zotero → 设置 → 高级 →「允许其它应用与本机 Zotero 通信」
 
 # 4) 只读自检：确认装的就是当前源码构建的插件
-npm run plugin:verify        # 预期结论：up-to-date
+#    装插件前：结论 not-installed、退出码 1（首次上机就是这个，属正常）
+#    装好并重启 Zotero 后：结论 up-to-date
+npm run plugin:verify
 
 # 5)（可选）构建语义索引——首次会自动下载模型
 npm run report:index
@@ -135,6 +139,17 @@ MCP 客户端配置示例：
   }
 }
 ```
+
+这个文件在哪取决于客户端——例如 Claude Desktop 的 `claude_desktop_config.json`、Claude Code 的 `~/.claude.json`、
+Cursor 的 `~/.cursor/mcp.json`、VS Code 的 `mcp.json`，DSH Desktop 则是 GUI 里的 MCP 列表。
+各家路径会随版本变动，请以客户端自己的文档为准。
+
+两点实操提醒：
+
+1. **`cwd` 必须是该平台原生形式的绝对路径**——Windows 上写 `"C:\\path\\to\\zotero-mcp"`。填 shell 风格路径
+   （如 `/tmp/…`）子进程不认，报错是 `spawn C:\Windows\system32\cmd.exe ENOENT`，完全看不出是路径写错。
+2. **环境变量要能继承**（示例只是*追加* `ZOTERO_MCP_WRITE`）。客户端必须把完整环境交给子进程——MCP SDK 会把它
+   收敛成安全白名单，再加上你在这里设的值。
 
 ---
 
@@ -164,7 +179,7 @@ MCP 客户端配置示例：
 | --- | --- | --- | --- | --- |
 | **A. 读与检索** | 检索 | `zotero_search` | 关键词 / 全文 / **语义** / 保存的搜索 | ★◆ |
 | | 条目 | `zotero_get_items` | 条目详情（含子项、标签、集合） | ★ |
-| | 条目 | `zotero_read_content` | 全文或 **PDF 逐页文本**（`charRange`、`pageLabel`、`pageLabelEstimated`） | ★◆ |
+| | 条目 | `zotero_read_content` | 全文 + 逐页**计数**（`indexedPages`、`totalPages`）；逐页的 `charRange` / `pageLabel` / `pageLabelEstimated` 来自 `zotero_search {mode:"semantic"}` | ★◆ |
 | | 组织 | `zotero_list_collections` | 列出集合 | |
 | | 组织 | `zotero_list_tags` | 列出标签 | |
 | | 概览 | `zotero_library_stats` | 库健康度：计数、缺元数据、重复候选数 | |
@@ -249,13 +264,24 @@ npm run report:page-labels -- <itemKey>       # 逐页标签读数，可与阅�
 
 | 检查 | 命令 | 结果 |
 | --- | --- | --- |
-| 单元 + 契约测试 | `npm test` | **287 / 287**，0 fail，0 skip |
+| 单元 + 契约测试 | `npm test` | **287** 用例，0 fail；跳过数取决于缓存状态——干净克隆首次 **21**，之后再跑 **8** |
 | 类型 | `npm run typecheck` | 干净 |
 | 生成物与文档同步 | `npm run docs:tools` | 无 diff（24 个工具） |
 | 离线不变量 | `npm run verify:offline` | 被拦截的非回环请求 **0** 个 |
 
-另有：`npm run plugin:verify`（已安装 `.xpi` 的哈希 **==** 现构建产物；当前 `a93749277c742bd1…`、33 477 B → **up-to-date**）；
-以及：在**没有模型缓存**的干净克隆上，依赖模型的测试会**跳过**而不是失败（这是刻意的）。
+另有 `npm run plugin:verify`：它把已安装 `.xpi` 的哈希与**你自己这个检出**构建出的哈希对比（两者一致时，再判断
+插件源码是否在该次构建之后又动过）。结论共五种：`no-build`、`not-installed`（装插件前）、`stale-install`
+（已安装 ≠ 现构建）、`stale-build`（源码有未提交改动，或有比构建更新的提交）、`up-to-date`；退出码**只有**
+`up-to-date` 是 0。**请以你自己跑出来的输出为准**：`.xpi` 对换行是字节敏感的（这两个源文件按 LF 入库；
+`core.autocrlf=true` 的检出会把它们落成 CRLF），同一 commit 在 LF 检出上是 33 464 B、在 CRLF 检出上是
+33 477 B——哈希不同，代码相同。
+
+依赖前置条件的测试在条件不满足时会**跳过**而不是失败（刻意的），所以读数取决于机器状态：**首次**在干净克隆里
+跑 `npm test` 是 **287** 个用例 / **266** 通过 / **21** 跳过（其中 13 条要默认模型缓存、5 条要多语种模型的
+`tokenizer.json`、2 条要 `docs/evidence/` 目录、1 条要 `docs/evidence/physical-offline.json`）。这一跑会顺带
+把默认模型下下来，所以**第二次**跑就是 **279** 通过 / **8** 跳过（5 + 2 + 1）——也就是上面表格里的数字；只要是
+已有模型缓存的机器，同样是这 8 条。`docs/evidence/` 那几条要的文件保存在仓库之外，所以「0 skip」是维护者机器的
+读数，不是干净克隆的。
 
 **真机证据**（带日期、可复现的记录）与每个改动的验收报告**保存在仓库之外**；仓库内的检查就是上面那张
 四条检查表 + `plugin:verify` + `verify:offline`。

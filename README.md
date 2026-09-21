@@ -2,7 +2,9 @@
 
 **English** | **[中文](README.zh-CN.md)**
 
-> **Status**: `npm test` **287/287** · `npm run plugin:verify` → **up-to-date** · `npm run verify:offline` → **0** non-loopback requests.
+> **Status**: `npm test` → **287** cases, 0 fail (skips depend on cache state: 21 on the first run in a fresh clone, 8 afterwards — see §10) ·
+> `npm run plugin:verify` → **`up-to-date`** when the installed `.xpi` is the current build (the hash you compare against is your own build's; see §10) ·
+> `npm run verify:offline` → **0** non-loopback requests.
 
 `zotero-mcp` is a **local-first, approval-gated** Model Context Protocol server for [Zotero](https://www.zotero.org/).
 It lets an AI agent search, read and — with explicit approval — **write** to your Zotero library: items, collections,
@@ -116,7 +118,9 @@ npm run plugin:build
 #    Zotero → Settings → Advanced → “Allow other applications on this computer to communicate with Zotero”
 
 # 4) verify the plug-in really is the current build (read-only)
-npm run plugin:verify        # expect: verdict up-to-date
+#    before the plug-in is installed: not-installed, exit code 1 (that is the expected first-run result)
+#    after installing + restarting Zotero: up-to-date
+npm run plugin:verify
 
 # 5) (optional) build the semantic index — downloads a model on first run
 npm run report:index
@@ -136,6 +140,18 @@ MCP client configuration (example):
   }
 }
 ```
+
+Where that file lives depends on the client — e.g. Claude Desktop `claude_desktop_config.json`, Claude Code
+`~/.claude.json`, Cursor `~/.cursor/mcp.json`, VS Code `mcp.json`, and DSH Desktop its own MCP list in the GUI.
+Paths move between client versions, so check your client's own docs.
+
+Two practical notes:
+
+1. **`cwd` must be an absolute path in the platform's own form** — on Windows use `"C:\\path\\to\\zotero-mcp"`.
+   A shell-style path (`/tmp/…`) is not understood by the child process and fails as
+   `spawn C:\Windows\system32\cmd.exe ENOENT`, which looks nothing like a path mistake.
+2. **Pass the environment through** (the example only *adds* `ZOTERO_MCP_WRITE`). The client must hand the child
+   a full environment — the MCP SDK reduces it to a safe allow-list plus whatever you set here.
 
 ---
 
@@ -166,7 +182,7 @@ Legend: **★ commonly used** · **◆ distinctive here** · **✎ requires writ
 | --- | --- | --- | --- | --- |
 | **A. Read & search** | Search | `zotero_search` | Keyword / full-text / **semantic** / saved-search queries | ★◆ |
 | | Items | `zotero_get_items` | Item details incl. children, tags, collections | ★ |
-| | Items | `zotero_read_content` | Full text or **per-page PDF text** (`charRange`, `pageLabel`, `pageLabelEstimated`) | ★◆ |
+| | Items | `zotero_read_content` | Full text + per-page *counts* (`indexedPages`, `totalPages`); the per-page `charRange` / `pageLabel` / `pageLabelEstimated` come from `zotero_search {mode:"semantic"}` | ★◆ |
 | | Organization | `zotero_list_collections` | List collections | |
 | | Organization | `zotero_list_tags` | List tags | |
 | | Overview | `zotero_library_stats` | Library health: counts, metadata gaps, duplicate candidates | |
@@ -253,14 +269,26 @@ The index **schema is versioned (1 → 2)**; an older schema is rebuilt.
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Unit + contract tests | `npm test` | **287 / 287**, 0 fail, 0 skip |
+| Unit + contract tests | `npm test` | **287** cases, 0 fail; skips depend on cache state — **21** on the first run in a fresh clone, **8** afterwards |
 | Types | `npm run typecheck` | clean |
 | Generated docs are current | `npm run docs:tools` | no diff (24 tools) |
 | Offline invariant | `npm run verify:offline` | **0** non-loopback requests intercepted |
 
-Plus: `npm run plugin:verify` (installed `.xpi` hash **==** freshly built artefact; currently
-`a93749277c742bd1…`, 33 477 B → **up-to-date**), and, for a clean clone without the model cache, the
-model-dependent tests **skip** rather than fail (by design).
+Plus `npm run plugin:verify` — it compares the hash of the installed `.xpi` with the one built **in your own
+checkout** (and, when the two match, whether the plug-in source has moved on since that build). Five verdicts:
+`no-build`, `not-installed` (before you install), `stale-install` (installed ≠ current build), `stale-build`
+(the source is dirty or has a newer commit than the build) and `up-to-date`; the exit code is 0 **only** for
+`up-to-date`. Treat **your own** `plugin:verify` output as the reference: the `.xpi` is byte-sensitive to
+line endings (the two source files are stored as LF; a checkout whose `core.autocrlf=true` materializes them as CRLF),
+so the same commit yields 33 464 B on an LF checkout and 33 477 B on a CRLF one — different sha256, identical code.
+
+Tests that need an absent precondition **skip** rather than fail (by design), so the count depends on the machine
+state: a **first** `npm test` in a fresh clone reports **287** cases / **266** pass / **21** skip (13 want the
+default model cache, 5 the multilingual model's `tokenizer.json`, 2 the `docs/evidence/` directory and 1
+`docs/evidence/physical-offline.json`). That run downloads the default model as a side effect, so the **second**
+run reports **279** pass / **8** skip (5 + 2 + 1) — the numbers above, and the same 8 on any machine with the
+model cache. The `docs/evidence/` skips need files kept outside this repository, so 0 skip is a maintainer's
+reading, not a fresh clone's.
 
 **Real-machine evidence** (dated, reproducible records) is kept **outside this repository** together with the
 per-change verification reports; the test suite, `plugin:verify` and `verify:offline` above are the in-repo checks.
